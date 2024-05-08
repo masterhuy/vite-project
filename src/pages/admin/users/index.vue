@@ -1,9 +1,19 @@
 <template>
     <div>
-        <a-card title="Default size card" style="width: 100%">
+        <a-card title="Users" style="width: 100%">
+            <div class="row mb-3">
+                <div class="col-12 d-flex justify-content-end">
+                    <router-link :to="{ name: 'admin-users-create' }">
+                        <a-button type="primary">
+                            <i class="fa-solid fa-plus"></i>
+                            Add new user
+                        </a-button>
+                    </router-link>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-12">
-                    <a-table :dataSource="users" :columns="columns" >
+                    <a-table :dataSource="users" :columns="columns" :scroll="{ x: 576 }">
                         <template #bodyCell="{ column, index, record }">
                             <template v-if="column.key === 'index'">
                                 <a>
@@ -55,6 +65,7 @@ export default defineComponent({
                 title: 'Status',
                 dataIndex: 'status',
                 key: 'status',
+                fixed: 'right',
             },
         ]
 
@@ -62,7 +73,7 @@ export default defineComponent({
             axios.get('http://127.0.0.1:8000/api/users')
                 .then(function (response) {
                     users.value = response.data
-                    console.log(response);
+                    // console.log(response);
                 })
                 .catch(function (error) {
                     // handle error

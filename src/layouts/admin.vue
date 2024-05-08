@@ -11,7 +11,7 @@
                         <a-list-item>{{ item }}</a-list-item>
                         </template>
                         <template #header>
-                        <div>Bang dieu khien</div>
+                        <div>Admin sidebar</div>
                         </template>
                     </a-list>
                 </div>

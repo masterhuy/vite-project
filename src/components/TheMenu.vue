@@ -7,7 +7,7 @@
       <a-menu-item key="admin-users">
         <router-link :to="{ name: 'admin-users' }">
           <span>
-            <UserOutlined class="me-1" /> Tài khoản
+            <UserOutlined class="me-1" /> Users
           </span>
         </router-link>
       </a-menu-item>
@@ -15,7 +15,7 @@
       <a-menu-item key="admin-roles">
         <router-link :to="{ name: 'admin-roles' }">
           <span>
-            <TagOutlined class="me-1"/> Vai trò
+            <TagOutlined class="me-1"/> Roles
           </span>
         </router-link>
       </a-menu-item>
@@ -23,7 +23,7 @@
       <a-menu-item key="admin-settings">
         <router-link :to="{ name: 'admin-settings' }">
           <span>
-            <SettingFilled /> Cài đặt
+            <SettingFilled /> Settings
           </span>
         </router-link>
       </a-menu-item>

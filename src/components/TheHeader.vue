@@ -26,7 +26,7 @@
                 width="34"
                 class="ms-3 me-3"
                 />
-                <span class="d-none d-sm-flex">QUẢN TRỊ</span>
+                <span class="d-none d-sm-flex">Admin page</span>
             </div>
 
             <div
