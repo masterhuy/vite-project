@@ -187,6 +187,8 @@
   
 <script>
     import { defineComponent, ref, reactive, toRefs } from "vue";
+    import { useRouter } from 'vue-router';
+    import { message } from 'ant-design-vue';
     import { useMenu } from "../../../stores/use-menu.js";
     import axios from "axios";
     
@@ -194,6 +196,7 @@
         setup() {
             useMenu().onSelectedKeys(["admin-users"]);
 
+            const router = useRouter();
             const users_status = ref([])
             const departments = ref([])
             const users = reactive({
@@ -224,7 +227,9 @@
             const createUsers = () =>{
                 axios.post("http://127.0.0.1:8000/api/users", users)
                 .then((response) => {
-                    console.log(response)
+                    // console.log(response)
+                    response ? message.success('This is a success message') : message.error('This is an error message');
+                    router.push({name: "admin-users"})
                 })
                 .catch((error) => {
                     console.log(error)
