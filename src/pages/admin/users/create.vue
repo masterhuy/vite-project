@@ -26,7 +26,7 @@
             <div class="col-12 col-sm-3 text-start text-sm-end">
                 <label>
                 <span class="text-danger me-1">*</span>
-                <span>Tình trạng:</span>
+                <span :class="{ 'text-danger' : errors.status_id }">Tình trạng:</span>
                 </label>
             </div>
 
@@ -39,7 +39,10 @@
                 :filter-option="filterOption"
                 allow-clear
                 v-model:value="status_id"
+                :class="{ 'select-danger' : errors.status_id }"
                 ></a-select>
+                <div class="w-100"></div>
+                <small class="text-danger" v-if="errors.status_id">{{ errors.status_id[0] }}</small>
             </div>
             </div>
 
@@ -47,7 +50,7 @@
             <div class="col-12 col-sm-3 text-start text-sm-end">
                 <label>
                 <span class="text-danger me-1">*</span>
-                <span>Tên Tài khoản:</span>
+                <span :class="{ 'text-danger' : errors.status_id }">Tên Tài khoản:</span>
                 </label>
             </div>
 
@@ -56,7 +59,10 @@
                 placeholder="Tên Tài khoản"
                 allow-clear
                 v-model:value="username"
+                :class="{ 'input-danger' : errors.username }"
                 />
+                <div class="w-100"></div>
+                <small class="text-danger" v-if="errors.username">{{ errors.username[0] }}</small>
             </div>
             </div>
 
@@ -64,7 +70,7 @@
             <div class="col-12 col-sm-3 text-start text-sm-end">
                 <label>
                 <span class="text-danger me-1">*</span>
-                <span>Họ và Tên:</span>
+                <span :class="{ 'text-danger' : errors.status_id }">Họ và Tên:</span>
                 </label>
             </div>
 
@@ -73,7 +79,10 @@
                 placeholder="Họ và Tên"
                 allow-clear
                 v-model:value="name"
+                :class="{ 'input-danger' : errors.name }"
                 />
+                <div class="w-100"></div>
+                <small class="text-danger" v-if="errors.name">{{ errors.name[0] }}</small>
             </div>
             </div>
 
@@ -81,7 +90,7 @@
             <div class="col-12 col-sm-3 text-start text-sm-end">
                 <label>
                 <span class="text-danger me-1">*</span>
-                <span>Email:</span>
+                <span :class="{ 'text-danger' : errors.status_id }">Email:</span>
                 </label>
             </div>
 
@@ -90,7 +99,10 @@
                 placeholder="Email"
                 allow-clear
                 v-model:value="email"
+                :class="{ 'input-danger' : errors.email }"
                 />
+                <div class="w-100"></div>
+                <small class="text-danger" v-if="errors.email">{{ errors.email[0] }}</small>
             </div>
             </div>
 
@@ -98,7 +110,7 @@
             <div class="col-12 col-sm-3 text-start text-sm-end">
                 <label>
                 <span class="text-danger me-1">*</span>
-                <span>Phòng ban:</span>
+                <span :class="{ 'text-danger' : errors.status_id }">Phòng ban:</span>
                 </label>
             </div>
 
@@ -109,8 +121,11 @@
                 style="width: 100%"
                 :options="departments"
                 :filter-option="filterOption"
-                v-model:value="departments_id"
+                v-model:value="department_id"
+                :class="{ 'select-danger' : errors.department_id }"
                 ></a-select>
+                <div class="w-100"></div>
+                <small class="text-danger" v-if="errors.department_id">{{ errors.department_id[0] }}</small>
             </div>
             </div>
 
@@ -118,7 +133,7 @@
             <div class="col-12 col-sm-3 text-start text-sm-end">
                 <label>
                 <span class="text-danger me-1">*</span>
-                <span>Mật khẩu:</span>
+                <span :class="{ 'text-danger' : errors.status_id }">Mật khẩu:</span>
                 </label>
             </div>
 
@@ -127,7 +142,10 @@
                 placeholder="Mật khẩu"
                 allow-clear
                 v-model:value="password"
+                :class="{ 'input-danger' : errors.email }"
                 />
+                <div class="w-100"></div>
+                <small class="text-danger" v-if="errors.password">{{ errors.password[0] }}</small>
             </div>
             </div>
 
@@ -135,7 +153,7 @@
             <div class="col-12 col-sm-3 text-start text-sm-end">
                 <label>
                 <span class="text-danger me-1">*</span>
-                <span>Xác nhận mật khẩu:</span>
+                <span :class="{ 'text-danger' : errors.status_id }">Xác nhận mật khẩu:</span>
                 </label>
             </div>
 
@@ -144,7 +162,10 @@
                 placeholder="Xác nhận mật khẩu"
                 allow-clear
                 v-model:value="password_confirmation"
+                :class="{ 'input-danger' : errors.password_confirmation }"
                 />
+                <div class="w-100"></div>
+                <small class="text-danger" v-if="errors.password_confirmation">{{ errors.password_confirmation[0] }}</small>
             </div>
             </div>
             </div>
@@ -187,6 +208,8 @@ import axios from "axios";
                 status_id: []
             })
 
+            const errors = ref({})
+
             const getUserCreate = () => {
                 axios.get('http://127.0.0.1:8000/api/users/create')
                     .then(function (response) {
@@ -207,6 +230,7 @@ import axios from "axios";
                 })
                 .catch((error) => {
                     console.log(error)
+                    errors.value = error.response.data.errors
                 })
             }
 
@@ -218,6 +242,7 @@ import axios from "axios";
 
 
             return {
+                errors,
                 users_status,
                 departments,
                 filterOption,
@@ -227,3 +252,12 @@ import axios from "axios";
         },
     });
 </script>
+
+<style>
+.select-danger .ant-select-selector{
+    border-color: #dc3545 !important;
+}
+.input-danger{
+    border: 1px solid #dc3545 !important;
+}
+</style>
