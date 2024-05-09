@@ -50,7 +50,7 @@
             <div class="col-12 col-sm-3 text-start text-sm-end">
                 <label>
                 <span class="text-danger me-1">*</span>
-                <span :class="{ 'text-danger' : errors.status_id }">Tên Tài khoản:</span>
+                <span :class="{ 'text-danger' : errors.username }">Tên Tài khoản:</span>
                 </label>
             </div>
 
@@ -70,7 +70,7 @@
             <div class="col-12 col-sm-3 text-start text-sm-end">
                 <label>
                 <span class="text-danger me-1">*</span>
-                <span :class="{ 'text-danger' : errors.status_id }">Họ và Tên:</span>
+                <span :class="{ 'text-danger' : errors.name }">Họ và Tên:</span>
                 </label>
             </div>
 
@@ -90,7 +90,7 @@
             <div class="col-12 col-sm-3 text-start text-sm-end">
                 <label>
                 <span class="text-danger me-1">*</span>
-                <span :class="{ 'text-danger' : errors.status_id }">Email:</span>
+                <span :class="{ 'text-danger' : errors.email }">Email:</span>
                 </label>
             </div>
 
@@ -110,7 +110,7 @@
             <div class="col-12 col-sm-3 text-start text-sm-end">
                 <label>
                 <span class="text-danger me-1">*</span>
-                <span :class="{ 'text-danger' : errors.status_id }">Phòng ban:</span>
+                <span :class="{ 'text-danger' : errors.department_id }">Phòng ban:</span>
                 </label>
             </div>
 
@@ -133,7 +133,7 @@
             <div class="col-12 col-sm-3 text-start text-sm-end">
                 <label>
                 <span class="text-danger me-1">*</span>
-                <span :class="{ 'text-danger' : errors.status_id }">Mật khẩu:</span>
+                <span :class="{ 'text-danger' : errors.password }">Mật khẩu:</span>
                 </label>
             </div>
 
@@ -142,7 +142,7 @@
                 placeholder="Mật khẩu"
                 allow-clear
                 v-model:value="password"
-                :class="{ 'input-danger' : errors.email }"
+                :class="{ 'input-danger' : errors.password }"
                 />
                 <div class="w-100"></div>
                 <small class="text-danger" v-if="errors.password">{{ errors.password[0] }}</small>
@@ -153,7 +153,7 @@
             <div class="col-12 col-sm-3 text-start text-sm-end">
                 <label>
                 <span class="text-danger me-1">*</span>
-                <span :class="{ 'text-danger' : errors.status_id }">Xác nhận mật khẩu:</span>
+                <span>Xác nhận mật khẩu:</span>
                 </label>
             </div>
 
@@ -162,10 +162,7 @@
                 placeholder="Xác nhận mật khẩu"
                 allow-clear
                 v-model:value="password_confirmation"
-                :class="{ 'input-danger' : errors.password_confirmation }"
                 />
-                <div class="w-100"></div>
-                <small class="text-danger" v-if="errors.password_confirmation">{{ errors.password_confirmation[0] }}</small>
             </div>
             </div>
             </div>
@@ -191,7 +188,7 @@
 <script>
     import { defineComponent, ref, reactive, toRefs } from "vue";
     import { useMenu } from "../../../stores/use-menu.js";
-import axios from "axios";
+    import axios from "axios";
     
     export default defineComponent({
         setup() {
@@ -202,6 +199,7 @@ import axios from "axios";
             const users = reactive({
                 username: "",
                 name: "",
+                email: "",
                 password: "",
                 password_confirmation: "",
                 department_id: [],
