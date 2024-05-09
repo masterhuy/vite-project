@@ -232,7 +232,7 @@
                     router.push({name: "admin-users"})
                 })
                 .catch((error) => {
-                    console.log(error)
+                    // console.log(error)
                     errors.value = error.response.data.errors
                 })
             }
