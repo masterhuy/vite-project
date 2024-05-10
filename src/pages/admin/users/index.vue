@@ -16,14 +16,20 @@
                     <a-table :dataSource="users" :columns="columns" :scroll="{ x: 576 }">
                         <template #bodyCell="{ column, index, record }">
                             <template v-if="column.key === 'index'">
-                                <a>
-                                {{ index + 1 }}
-                                </a>
+                                <a>{{ index + 1 }}</a>
                             </template>
 
                             <template v-if="column.key === 'status'">
                                 <span v-if="record.status_id == 1" class="text-primary">{{ record.status }}</span>
                                 <span v-else-if="record.status_id == 2" class="text-danger">{{ record.status }}</span>
+                            </template>
+
+                            <template v-if="column.key === 'action'">
+                                <router-link :to="{ name: 'admin-users-edit', params: { id: record.id } }">
+                                    <a-button type="primary">
+                                        <i class="fa-solid fa-pen-to-square"></i>{{ record.id }}
+                                    </a-button>
+                                </router-link>
                             </template>
                         </template>
                     </a-table>
@@ -65,6 +71,10 @@ export default defineComponent({
                 title: 'Status',
                 dataIndex: 'status',
                 key: 'status',
+            },
+            {
+                title: 'Actions',
+                key: 'action',
                 fixed: 'right',
             },
         ]
