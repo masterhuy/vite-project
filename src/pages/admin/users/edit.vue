@@ -133,24 +133,6 @@
             <div class="col-12 col-sm-3 text-start text-sm-end"></div>
 
             <div class="col-12 col-sm-5">
-                <a-select
-                show-search
-                placeholder="Phòng ban"
-                style="width: 100%"
-                :options="departments"
-                :filter-option="filterOption"
-                v-model:value="department_id"
-                :class="{ 'select-danger' : errors.department_id }"
-                ></a-select>
-                <div class="w-100"></div>
-                <small class="text-danger" v-if="errors.department_id">{{ errors.department_id[0] }}</small>
-            </div>
-            </div>
-
-            <div class="row mb-3">
-            <div class="col-12 col-sm-3 text-start text-sm-end"></div>
-
-            <div class="col-12 col-sm-5">
                 <a-checkbox v-model:checked="change_password">
                     Doi mat khau
                 </a-checkbox>
@@ -241,6 +223,7 @@
 <script>
     import { defineComponent, ref, reactive, toRefs } from "vue";
     import { useRouter } from 'vue-router';
+    import { useRoute } from 'vue-router';
     import { message } from 'ant-design-vue';
     import { useMenu } from "../../../stores/use-menu.js";
     import axios from "axios";
@@ -250,6 +233,7 @@
             useMenu().onSelectedKeys(["admin-users"]);
 
             const router = useRouter();
+            const route = useRoute();
             const users_status = ref([])
             const departments = ref([])
             const users = reactive({
@@ -267,7 +251,31 @@
 
             const errors = ref({})
 
-            
+            const getUserEdit = () => {
+                axios.get(`http://127.0.0.1:8000/api/users/${route.params.id}/edit`)
+                    .then((response) => {
+                        console.log(response)
+                        users.username = response.data.users.username
+                        users.name = response.data.users.name
+                        users.email = response.data.users.email
+                        users.department_id = response.data.users.department_id
+                        users.status_id = response.data.users.status_id
+
+                        users.login_at ? users.login_at = response.data.users.login_at : users.login_at = "Chua co luot dang nhap"
+                        users.change_password_at ? users.change_password_at = response.data.users.change_password_at : users.change_password_at = "Chua co luot dang nhap"
+
+                        // users.login_at = response.data.users.login_at
+                        // users.change_password_at = response.data.users.change_password_at
+
+                        users_status.value = response.data.users_status
+                        departments.value = response.data.departments
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
+            }
+
+            getUserEdit()
 
 
             const filterOption = (input, option) => {
