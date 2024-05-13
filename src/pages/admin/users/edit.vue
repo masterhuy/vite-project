@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="">
+    <form @submit.prevent="updateUser()">
         <a-card title="Cap nhat Tài khoản" style="width: 100%">
         <div class="row mb-3">
             <div class="col-12 col-sm-4 mb-3">
@@ -134,7 +134,7 @@
 
             <div class="col-12 col-sm-5">
                 <a-checkbox v-model:checked="change_password">
-                    Doi mat khau
+                    Đổi mật khẩu
                 </a-checkbox>
             </div>
             </div>
@@ -179,7 +179,7 @@
             <div class="row mb-3">
                 <div class="col-12 col-sm-3 text-start text-sm-end">
                     <label>
-                    <span>Lan dang nhap gan day:</span>
+                    <span>Lần đăng nhập gần đây:</span>
                     </label>
                 </div>
 
@@ -191,7 +191,7 @@
             <div class="row mb-3">
                 <div class="col-12 col-sm-3 text-start text-sm-end">
                     <label>
-                    <span>Lan doi mat khau gan day:</span>
+                    <span>Lần đổi mật khẩu gần đây:</span>
                     </label>
                 </div>
 
@@ -254,15 +254,15 @@
             const getUserEdit = () => {
                 axios.get(`http://127.0.0.1:8000/api/users/${route.params.id}/edit`)
                     .then((response) => {
-                        console.log(response)
+                        // console.log(response)
                         users.username = response.data.users.username
                         users.name = response.data.users.name
                         users.email = response.data.users.email
                         users.department_id = response.data.users.department_id
                         users.status_id = response.data.users.status_id
 
-                        users.login_at ? users.login_at = response.data.users.login_at : users.login_at = "Chua co luot dang nhap"
-                        users.change_password_at ? users.change_password_at = response.data.users.change_password_at : users.change_password_at = "Chua co luot dang nhap"
+                        users.login_at ? users.login_at = response.data.users.login_at : users.login_at = "Chưa có lượt đăng nhập"
+                        users.change_password_at ? users.change_password_at = response.data.users.change_password_at : users.change_password_at = "Chưa có lượt đổi mật khẩu"
 
                         // users.login_at = response.data.users.login_at
                         // users.change_password_at = response.data.users.change_password_at
@@ -277,6 +277,17 @@
 
             getUserEdit()
 
+            const updateUser = () => {
+                axios.put(`http://127.0.0.1:8000/api/users/${route.params.id}`, users)
+                    .then((response) => {
+                        console.log(response)
+                    })
+                    .catch((error) => {
+                        // console.log(error)
+                        errors.value = error.response.data.errors
+                    })
+            }
+
 
             const filterOption = (input, option) => {
                 return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
@@ -284,6 +295,7 @@
 
 
             return {
+                updateUser,
                 errors,
                 users_status,
                 departments,
