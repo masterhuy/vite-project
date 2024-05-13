@@ -26,10 +26,15 @@
 
                             <template v-if="column.key === 'action'">
                                 <router-link :to="{ name: 'admin-users-edit', params: { id: record.id } }">
-                                    <a-button type="primary">
+                                    <a-button type="primary" class="me-sm-2">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </a-button>
                                 </router-link>
+                                
+                                    <a-button type="primary" danger @click="deleteUser(record.id)">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a-button>
+                                
                             </template>
                         </template>
                     </a-table>
@@ -41,7 +46,11 @@
 
 <script>
 import { defineComponent, ref } from "vue";
+import { message } from 'ant-design-vue';
 import { useMenu } from "../../../stores/use-menu.js";
+import { Modal } from 'ant-design-vue';
+import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
+import { createVNode } from 'vue';
 export default defineComponent({
     setup() {
         useMenu().onSelectedKeys(["admin-users"]);
@@ -102,9 +111,34 @@ export default defineComponent({
 
         getUser()
 
+        const deleteUser = (id) => {
+            Modal.confirm({
+                title: 'Do you want to delete these items?',
+                icon: createVNode(ExclamationCircleOutlined),
+                content: 'When clicked the OK button, this dialog will be closed after 1 second',
+                onOk() {
+                    axios.delete(`http://127.0.0.1:8000/api/users/${id}`)
+                        .then(function (response) {
+                            if(response.status == 200){
+                                message.success('Delete user success')
+                                getUser()
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        })
+                },
+                // eslint-disable-next-line @typescript-eslint/no-empty-function
+                onCancel() {},
+            });
+
+            
+        }
+
         return {
             users,
-            columns
+            columns,
+            deleteUser
         }
     },
 })
