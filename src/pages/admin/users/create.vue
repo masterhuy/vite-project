@@ -228,8 +228,8 @@
                 axios.post("http://127.0.0.1:8000/api/users", users)
                 .then((response) => {
                     // console.log(response)
-                    response ? message.success('This is a success message') : message.error('This is an error message');
-                    router.push({name: "admin-users"})
+                    response.status == 200 ? message.success('Create user success') : ""
+                    response.status == 200 ? router.push({name: "admin-users"}) : ""
                 })
                 .catch((error) => {
                     // console.log(error)
