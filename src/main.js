@@ -6,6 +6,7 @@ import axios from 'axios'
 window.axios = axios
 
 import {
+    Upload,
     Checkbox,
     Input,
     Select,
@@ -29,6 +30,7 @@ const app = createApp(App);
 const pinia = createPinia()
 app.use(pinia)
 app.use(router);
+app.use(Upload);
 app.use(Checkbox);
 app.use(Input);
 app.use(Select);

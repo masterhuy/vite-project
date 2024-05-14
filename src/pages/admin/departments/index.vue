@@ -1,37 +1,32 @@
 <template>
     <div>
-        <a-card title="Users" style="width: 100%">
+        <a-card title="Departments" style="width: 100%">
             <div class="row mb-3">
                 <div class="col-12 d-flex justify-content-end">
-                    <router-link :to="{ name: 'admin-users-create' }">
+                    <router-link :to="{ name: 'admin-departments-create' }">
                         <a-button type="primary">
                             <i class="fa-solid fa-plus"></i>
-                            Add new user
+                            Add new department
                         </a-button>
                     </router-link>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
-                    <a-table :dataSource="users" :columns="columns" :scroll="{ x: 576 }">
+                    <a-table :dataSource="departments" :columns="columns" :scroll="{ x: 576 }">
                         <template #bodyCell="{ column, index, record }">
                             <template v-if="column.key === 'index'">
                                 <a>{{ index + 1 }}</a>
                             </template>
 
-                            <template v-if="column.key === 'status'">
-                                <span v-if="record.status_id == 1" class="text-primary">{{ record.status }}</span>
-                                <span v-else-if="record.status_id == 2" class="text-danger">{{ record.status }}</span>
-                            </template>
-
                             <template v-if="column.key === 'action'">
-                                <router-link :to="{ name: 'admin-users-edit', params: { id: record.id } }">
+                                <router-link :to="{ name: 'admin-departments-edit', params: { id: record.id } }">
                                     <a-button type="primary" class="me-sm-2">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </a-button>
                                 </router-link>
                                 
-                                    <a-button type="primary" danger @click="deleteUser(record.id)">
+                                    <a-button type="primary" danger @click="deleteDepartment(record.id)">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </a-button>
                                 
@@ -53,33 +48,18 @@ import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 import { createVNode } from 'vue';
 export default defineComponent({
     setup() {
-        useMenu().onSelectedKeys(["admin-users"]);
+        useMenu().onSelectedKeys(["admin-departments"]);
 
-        const users = ref([])
+        const departments = ref([])
         const columns = [
             {
                 title: 'ID',
                 key: 'index'
             },
             {
-                title: 'User name',
-                dataIndex: 'username',
-                key: 'username',
-            },
-            {
-                title: 'Email',
-                dataIndex: 'email',
-                key: 'email',
-            },
-            {
-                title: 'Department',
-                dataIndex: 'departments',
-                key: 'departments',
-            },
-            {
-                title: 'Status',
-                dataIndex: 'status',
-                key: 'status',
+                title: 'Name',
+                dataIndex: 'name',
+                key: 'name',
             },
             {
                 title: 'Actions',
@@ -88,10 +68,10 @@ export default defineComponent({
             },
         ]
 
-        const getUser = () => {
-            axios.get('http://127.0.0.1:8000/api/users')
+        const getDepartments = () => {
+            axios.get('http://127.0.0.1:8000/api/departments')
                 .then(function (response) {
-                    users.value = response.data
+                    departments.value = response.data
                     // console.log(response);
                 })
                 .catch(function (error) {
@@ -100,19 +80,19 @@ export default defineComponent({
                 });
         }
 
-        getUser()
+        getDepartments()
 
-        const deleteUser = (id) => {
+        const deleteDepartment = (id) => {
             Modal.confirm({
                 title: 'Do you want to delete these items?',
                 icon: createVNode(ExclamationCircleOutlined),
                 content: 'When clicked the OK button, this dialog will be closed after 1 second',
                 onOk() {
-                    axios.delete(`http://127.0.0.1:8000/api/users/${id}`)
+                    axios.delete(`http://127.0.0.1:8000/api/departments/${id}`)
                         .then(function (response) {
                             if(response.status == 200){
-                                message.success('Delete user success')
-                                getUser()
+                                message.success('Delete department success')
+                                getDepartments()
                             }
                         })
                         .catch(function (error) {
@@ -122,14 +102,12 @@ export default defineComponent({
                 // eslint-disable-next-line @typescript-eslint/no-empty-function
                 onCancel() {},
             });
-
-            
         }
 
         return {
-            users,
+            departments,
             columns,
-            deleteUser
+            deleteDepartment
         }
     },
 })

@@ -1,6 +1,6 @@
 <template>
     <form @submit.prevent="updateUser()">
-        <a-card title="Cap nhat Tài khoản" style="width: 100%">
+        <a-card title="Edit user" style="width: 100%">
         <div class="row mb-3">
             <div class="col-12 col-sm-4 mb-3">
             <div class="row">

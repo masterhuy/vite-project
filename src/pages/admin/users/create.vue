@@ -5,7 +5,7 @@
             <div class="col-12 col-sm-4 mb-3">
             <div class="row">
                 <div class="col-12 d-flex justify-content-center mb-3">
-                <a-avatar shape="square" :size="200">
+                <!-- <a-avatar shape="square" :size="200">
                     <template #icon>
                     <img src="../../../assets/users.jpg" alt="Avatar" />
                     </template>
@@ -16,7 +16,17 @@
                 <a-button type="primary">
                     <i class="fa-solid fa-plus me-2"></i>
                     <span>Chọn ảnh</span>
-                </a-button>
+                </a-button> -->
+
+                    <a-upload
+                        v-model:file-list="fileList"
+                        name="file"
+                        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                        :headers="headers"
+                        @change="handleChange"
+                    >
+                        <a-button>Click to Upload</a-button>
+                    </a-upload>
                 </div>
             </div>
             </div>
@@ -244,7 +254,24 @@
             };
 
 
+            const handleChange = info => {
+            if (info.file.status !== 'uploading') {
+                console.log(info.file, info.fileList);
+            }
+            if (info.file.status === 'done') {
+                message.success(`${info.file.name} file uploaded successfully`);
+            } else if (info.file.status === 'error') {
+                message.error(`${info.file.name} file upload failed.`);
+            }
+            };
+            const fileList = ref([]);
+            const headers = {
+            authorization: 'authorization-text',
+            };
+
+            
             return {
+                handleChange,
                 errors,
                 users_status,
                 departments,

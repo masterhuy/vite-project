@@ -20,6 +20,24 @@ const admin = [
                 component: () => import("../pages/admin/users/edit.vue"),
             },
 
+            //Departments
+            {
+                path: "departments",
+                name: "admin-departments",
+                component: () => import("../pages/admin/departments/index.vue"),
+            },
+            {
+                path: "departments/create",
+                name: "admin-departments-create",
+                component: () => import("../pages/admin/departments/create.vue"),
+            },
+            {
+                path: "departments/:id/edit",
+                name: "admin-departments-edit",
+                component: () => import("../pages/admin/departments/edit.vue"),
+            },
+            
+
             // Roles
             {
                 path: "roles",

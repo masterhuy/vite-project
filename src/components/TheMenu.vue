@@ -11,6 +11,14 @@
           </span>
         </router-link>
       </a-menu-item>
+
+      <a-menu-item key="admin-departments">
+        <router-link :to="{ name: 'admin-departments' }">
+          <span>
+            <TagOutlined class="me-1"/> Departments
+          </span>
+        </router-link>
+      </a-menu-item>
   
       <a-menu-item key="admin-roles">
         <router-link :to="{ name: 'admin-roles' }">
